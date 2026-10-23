@@ -19,3 +19,25 @@ Từ kết quả chạy thực tế trên toàn bộ 71,429 game:
 - **Game đạt chuẩn >= 50 reviews:** 11,568 game (chỉ chiếm 16.20%) -> Số game đủ dữ liệu tin cậy để đánh giá chất lượng là rất ít.
 - **Game nhiều review nhất:** 1,279,700 reviews.
 - **Trung vị (Median) = 2.0 reviews** trong khi **Trung bình (Mean) = 410.2 reviews**.
+
+## 3. Kiểm toán Phân phối Giá tiền (`price_initial (USD)`)
+Từ kết quả kiểm tra thực tế:
+- **Tỷ lệ Free vs Trả phí:**
+  - Game Miễn phí ($0.00): 22,434 game (chiếm 31.41%)
+  - Game Trả phí (> $0.00): 48,995 game (chiếm 68.59%)
+- **Mức giá ngoại lệ:** Thấp nhất $0.00, cao nhất $999.98 (ngoại lệ cực đoan).
+- **Độ lệch giá:** 
+  - Trung vị (Median) = $2.99
+  - Trung bình (Mean) = $6.53
+  - Giá trung bình bị thổi phồng bởi một số ít sản phẩm có giá cực đoan. Hơn 50% tựa game trên Steam có giá từ $2.99 trở xuống.
+- **Chiến lược giá phổ biến (Top 5):** 
+  1. $0.00 (22,434 game - Free-to-Play)
+  2. $4.99 (6,752 game)
+  3. $9.99 (5,956 game)
+  4. $0.99 (5,618 game)
+  5. $1.99 (4,195 game)
+  -> 100% các mức giá thương mại phổ biến nhất đều sử dụng định giá tâm lý đuôi `.99`.
+
+### Quyết định kỹ thuật:
+- Áp dụng phân dải giá chuẩn theo Từ điển Metric: `Free (=0)`, `Low (>0-5)`, `Mid (>5-15)`, `High (>15-30)`, `Premium (>30)`.
+- Các game có giá cực đoan (> $200) sẽ được xem xét và xử lý ở bước làm sạch (Phase 1/Phase 3) để tránh bóp méo biểu đồ.
