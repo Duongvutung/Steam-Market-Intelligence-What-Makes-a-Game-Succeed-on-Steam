@@ -41,3 +41,41 @@ Từ kết quả kiểm tra thực tế:
 ### Quyết định kỹ thuật:
 - Áp dụng phân dải giá chuẩn theo Từ điển Metric: `Free (=0)`, `Low (>0-5)`, `Mid (>5-15)`, `High (>15-30)`, `Premium (>30)`.
 - Các game có giá cực đoan (> $200) sẽ được xem xét và xử lý ở bước làm sạch (Phase 1/Phase 3) để tránh bóp méo biểu đồ.
+
+## 4. Kiểm toán Toàn bộ 6 Cột Dạng Mảng (Array Fields Audit)
+Kiểm tra thực tế hiện tượng mảng rỗng `[]` trên toàn bộ 71,429 dòng:
+
+| Tên cột mảng | Số game rỗng `[]` | Tỷ lệ rỗng (%) | Số game có dữ liệu | Tỷ lệ có dữ liệu (%) | Đánh giá & Hướng xử lý |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| `genres` | 223 | 0.31% | 71,206 | 99.69% | Rất đầy đủ. 223 game thiếu sẽ gán nhãn `'Unknown'` ở bước làm sạch. |
+| `categories` | 558 | 0.78% | 70,871 | 99.22% | Tỷ lệ phủ cao, phục vụ phân tích tính năng (Single-player, Co-op). |
+| `platforms` | 0 | 0.00% | 71,429 | 100.00% | 100% đầy đủ. Windows chiếm lên với 76.84% game. |
+| `developers` | 200 | 0.28% | 71,229 | 99.72% | Rất đầy đủ, phục vụ tốt BQ11 (xếp hạng nhà phát triển). |
+| `publishers` | 493 | 0.69% | 70,936 | 99.31% | Đầy đủ, phục vụ đánh giá năng lực phát hành ở BQ11. |
+| `additional_content` | 64,266 | 89.97% | 7,163 | 10.03% | Gần 90% game không có DLC. DLC chỉ tập trung ở 10% thiểu số. |
+
+### Phát hiện về Nền tảng (Platforms - Phục vụ BQ3):
+- Game chỉ chạy Windows: 54,889 game (76.84%).
+- Game hỗ trợ trọn vẹn cả 3 hệ (Windows + Mac + Linux): 7,362 game (10.31%).
+- Game chỉ chạy Mac: 21 game (thị phần cực kỳ nhỏ).
+
+### Quyết định kỹ thuật:
+- Sử dụng hàm tách mảng an toàn (`ast.literal_eval` + `.explode()`) ở Phase 2 và Phase 3 để chuẩn hóa thành các bảng quan hệ 3NF riêng biệt: `game_genres`, `game_categories`, `game_platforms`, `game_developers`, `game_publishers`.
+- Cột `platforms` sẽ được phân nhóm thành 3 nhóm chuẩn: `Chỉ Windows`, `Windows + 1 hệ khác`, và `Cả 3 hệ (Win+Mac+Linux)` theo đúng Từ điển Metric trang 12.
+
+## 5. Kiểm toán Ngày phát hành (`release_date`) & Trạng thái Ra mắt (`is_released`)
+- **Tình trạng phát hành (`is_released`):**
+  - Game đã phát hành chính thức (`True`): 58,041 game (chiếm 81.26%).
+  - Game chưa phát hành / Sắp ra mắt (`False`): 13,388 game (chiếm 18.74%).
+- **Kiểm tra định dạng ngày (`release_date`):**
+  - Các game chưa phát hành được gán nhãn chuỗi `'Not Released'`.
+  - Toàn bộ 58,041 game đã ra mắt đều lưu theo chuẩn ISO `YYYY-MM-DD`. Khi dùng `pd.to_datetime(..., format='mixed', errors='coerce')`, tỷ lệ nhận diện thành công đạt 100% trên tập game đã phát hành.
+- **Khảo sát xu hướng phát hành theo thời gian (Sơ bộ BQ1):**
+  - Dải năm phát hành: Từ 1997 đến 2025.
+  - Top 5 năm phát hành nhiều nhất: 2024 (9,693 game), 2023 (7,903 game), 2021 (7,627 game), 2019 (6,082 game), 2020 (5,093 game).
+  - Tốc độ đưa game lên Steam bùng nổ kỷ lục vào giai đoạn 2023–2024.
+
+### Quyết định kỹ thuật:
+- Sử dụng `format='mixed'` để chuẩn hóa `release_date`, trích xuất cột `release_year` dạng số nguyên.
+- Các dòng `'Not Released'` sẽ mang giá trị `NaT` (hoặc `NULL` trong SQL) và có cờ `is_released = 0`.
+- Khi phân tích xu hướng năm (BQ1), chỉ tập trung vào nhóm game đã phát hành chính thức (`is_released == 1`).
