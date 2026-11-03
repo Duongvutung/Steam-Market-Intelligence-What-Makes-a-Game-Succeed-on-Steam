@@ -85,3 +85,31 @@ Khoảng ngày trên phản ánh các giá trị trong bộ dữ liệu,
 không xác nhận tính chính xác của từng ngày với nguồn Steam.
 Năm 2025 chỉ có ngày phát hành được ghi nhận đến 23/01;
 không xem đây là dữ liệu đầy đủ cho cả năm khi so sánh xu hướng.
+
+## 6. Kiểm toán giá và cờ miễn phí
+
+Không phát hiện giá âm trong trường price_initial (USD).
+Giá dao động từ 0 đến 999,98 USD; trung bình đạt 6,53 USD,
+trong khi trung vị là 2,99 USD. Chênh lệch giữa trung bình
+và trung vị cho thấy phân phối giá lệch về phía các giá trị cao.
+
+Trong nhóm đã phát hành, 740 game có is_free = False nhưng
+giá bằng 0; 3 game có is_free = True nhưng giá dương. Do đó, không thể sử dụng điều kiện giá bằng 0 để thay thế
+hoàn toàn cho cờ miễn phí.
+
+Các trường hợp bất thường nhất được giữ nguyên để kiểm tra. Giá cao không nên coi là lỗi và chỉ là 1 điểm lưu ý và chưa bị loại khỏi dữ liệu. Việc phân nhóm theo mô hình miễn phí/trả phí cần được phân biệt với phân nhóm theo giá niêm yết.
+
+Trong 58.041 sản phẩm đã phát hành, 743 bản ghi (1,28%) có
+thông tin giá và cờ miễn phí không nhất quán. Cụ thể, 740 bản ghi có is_free = False và giá bằng 0, còn 3 bản ghi có
+is_free = True và giá dương.
+
+Phân tích mô hình miễn phí và trả phí sẽ phân nhóm theo
+is_free như được ghi nhận trong dữ liệu. Phân tích dải giá
+sẽ dùng price_initial (USD) và gọi riêng nhóm 0 USD là
+“Giá bằng 0”. Khi so sánh hai mô hình, kết quả sẽ được
+đối chiếu giữa mẫu đầy đủ và mẫu loại 743 bản ghi bất nhất.
+
+Trong nhóm đã phát hành, mức giá cao nhất là 999,98 USD,
+cao hơn mức cao thứ 2 tới 699,99 USD. Một số tên sản phẩm trong nhóm giá cao gợi ý khả năng bộ dữ liệu có cả phần mềm. Các mức giá này được giữ lại trong kiểm toán. Phạm vi
+sản phẩm cần được xác định trước khi diễn giải phân phối
+giá của thị trường game.
