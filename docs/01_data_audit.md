@@ -113,3 +113,26 @@ Trong nhóm đã phát hành, mức giá cao nhất là 999,98 USD,
 cao hơn mức cao thứ 2 tới 699,99 USD. Một số tên sản phẩm trong nhóm giá cao gợi ý khả năng bộ dữ liệu có cả phần mềm. Các mức giá này được giữ lại trong kiểm toán. Phạm vi
 sản phẩm cần được xác định trước khi diễn giải phân phối
 giá của thị trường game.
+
+## 7. Phạm vi sản phẩm phân tích
+
+Trong 58.041 sản phẩm đã phát hành, 56.788 sản phẩm có ít nhất
+một nhãn game và không có nhãn phần mềm/video thuộc danh sách
+kiểm tra. Có 707 sản phẩm chỉ mang nhãn phần mềm/video,
+158 sản phẩm mang cả hai nhóm nhãn và 388 sản phẩm chưa được
+xác định bằng các danh sách này.
+
+Mẫu phân tích chính được giới hạn ở 56.788 sản phẩm thuộc
+nhóm nhãn game, tương đương 97,84% số sản phẩm đã phát hành.
+Ba nhóm còn lại được giữ trong dữ liệu xử lý và có cờ phân
+nhóm để truy vết.
+
+Quy tắc nhận diện dựa trên các nhãn hiện có trong trường
+genres. Một số nhãn như Indie, Casual và Simulation xuất hiện
+cùng nhãn phần mềm, cho thấy khả năng phân loại sản phẩm bằng
+genre còn hạn chế. Do đó, phạm vi nghiên cứu được hiểu là
+mẫu game xác định theo quy tắc nhãn của project.
+
+Danh sách nhãn được lưu trong notebook tại game_labels và
+non_game_labels. Các thay đổi đối với hai danh sách cần được
+ghi nhận và đánh giá lại số lượng sản phẩm trong từng nhóm.
