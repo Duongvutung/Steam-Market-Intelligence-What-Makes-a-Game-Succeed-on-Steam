@@ -136,3 +136,28 @@ mẫu game xác định theo quy tắc nhãn của project.
 Danh sách nhãn được lưu trong notebook tại game_labels và
 non_game_labels. Các thay đổi đối với hai danh sách cần được
 ghi nhận và đánh giá lại số lượng sản phẩm trong từng nhóm.
+
+## 8. Cấu trúc các trường dạng danh sách
+
+Trên toàn bộ 71.429 bản ghi, sáu trường dạng danh sách đều
+chuyển đổi thành công và chỉ chứa phần tử kiểu chuỗi.
+
+Phát hiện phần tử rỗng tại 1 bản ghi developers và 6 bản ghi
+publishers. Phần tử trùng xuất hiện tại 53 bản ghi developers,
+13 bản ghi publishers, 67 bản ghi categories và 8 bản ghi
+additional_content. Các số liệu phản ánh số bản ghi gặp từng
+vấn đề; một bản ghi có thể được tính ở nhiều nhóm kiểm tra.
+
+Đối với developers, publishers, categories, genres và platforms,
+quy trình làm sạch sẽ loại khoảng trắng đầu/cuối, bỏ phần tử
+rỗng và loại phần tử trùng sau chuẩn hóa. Thứ tự xuất hiện đầu
+tiên được giữ lại. Chữ hoa, chữ thường và ký tự Unicode được
+bảo toàn.
+
+Đối với additional_content, các tên trùng được giữ lại do
+chưa có mã định danh để xác định chúng thuộc cùng một nội
+dung bổ sung. Hạn chế này cần được lưu ý khi tính số lượng
+nội dung bổ sung theo tên.
+
+Kiểm tra trùng hiện tại dựa trên chuỗi gốc. Số phần tử trùng
+sau chuẩn hóa khoảng trắng sẽ được xác định trong log làm sạch.
