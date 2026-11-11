@@ -201,3 +201,25 @@ nguồn trước khi hoàn thiện data dictionary. Các phân tích
 Metacritic chỉ sử dụng điểm dương, báo cáo số quan sát và
 giới hạn về độ bao phủ. Kết quả của nhóm có điểm không được
 suy rộng trực tiếp cho toàn bộ mẫu nghiên cứu.
+
+## 9. Độ tuổi yêu cầu và achievements
+
+### required_age
+
+Trên toàn bộ 71.429 bản ghi, required_age trùng hoàn toàn
+với metacritic trong file nguồn. Các giá trị dương quan sát
+được không phù hợp để diễn giải như độ tuổi yêu cầu.
+
+Trường required_age không được sử dụng trong phân tích độ
+tuổi. Nguyên nhân trùng lặp chưa được xác định. Dữ liệu nguồn
+được bảo toàn để phục vụ truy vết.
+
+### n_achievements
+
+Không phát hiện giá trị âm. Trung vị bằng 0, phân vị 95%
+bằng 51 và phân vị 99% bằng 100. Giá trị lớn nhất là 9.821,
+thuộc sản phẩm LOGistICAL.
+
+Phân phối achievements lệch mạnh về phía các giá trị cao.
+Các giá trị cực đoan được giữ lại; trung vị được ưu tiên
+khi mô tả mức điển hình.
