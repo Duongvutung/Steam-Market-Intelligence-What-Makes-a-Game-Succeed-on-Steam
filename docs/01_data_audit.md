@@ -161,3 +161,43 @@ nội dung bổ sung theo tên.
 
 Kiểm tra trùng hiện tại dựa trên chuỗi gốc. Số phần tử trùng
 sau chuẩn hóa khoảng trắng sẽ được xác định trong log làm sạch.
+
+Trường positive_percentual nằm trong khoảng 0–100 trên toàn bộ
+dữ liệu. Với các sản phẩm có review, sai lệch tuyệt đối lớn nhất
+so với tỷ lệ tính từ total_positive / total_reviews × 100 là
+0,05 điểm phần trăm, phù hợp với khả năng làm tròn.
+
+Toàn bộ 26.812 sản phẩm có tổng review bằng 0 được ghi nhận
+positive_percentual = 0. Khi xây dựng biến phân tích, tỷ lệ
+tích cực của nhóm này sẽ được biểu diễn bằng giá trị thiếu.
+Biến positive_ratio sẽ được tính trực tiếp từ số review và
+lưu trên thang 0–1.
+
+### Mã và nhãn đánh giá người dùng
+
+Các giá trị review_score từ 1 đến 9 tương ứng với những
+nhãn đánh giá có thứ tự, từ Overwhelmingly Negative đến
+Overwhelmingly Positive. Trường này được sử dụng như biến
+phân loại có thứ tự; không tính trung bình các mã để đại diện
+cho mức độ hài lòng.
+
+Mã 0 xuất hiện cùng nhãn No user reviews và các nhãn ghi nhận
+từ 1 đến 9 review. Nhóm này được diễn giải là chưa có nhãn
+đánh giá tổng hợp trong dữ liệu.
+
+Phân tích tỷ lệ tích cực sử dụng positive_ratio tính trực tiếp
+từ số review. Các bảng xếp hạng áp dụng ngưỡng tối thiểu
+50 review đã xác định trong phương pháp.
+
+### Điểm Metacritic
+
+Trường metacritic có giá trị từ 0 đến 97 và không ghi nhận
+giá trị ngoài khoảng 0–100. Có 2.523 sản phẩm mang điểm dương,
+chiếm khoảng 3,53% toàn bộ dữ liệu; 68.906 sản phẩm có giá trị 0.
+
+Project tạm xem giá trị 0 là chưa có điểm sử dụng được.
+Đây là lựa chọn phương pháp cần được đối chiếu với mô tả
+nguồn trước khi hoàn thiện data dictionary. Các phân tích
+Metacritic chỉ sử dụng điểm dương, báo cáo số quan sát và
+giới hạn về độ bao phủ. Kết quả của nhóm có điểm không được
+suy rộng trực tiếp cho toàn bộ mẫu nghiên cứu.
